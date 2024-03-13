@@ -122,6 +122,5 @@ def main():
     model.evaluate(x_train_testing, y_train_testing)
     #print(accuracy)
 
-
 if __name__ == "__main__":
     main()
