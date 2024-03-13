@@ -2,6 +2,7 @@ import librosa as lb
 import numpy as np
 import tensorflow as tf
 import os
+#os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 #bonafide = 1, fake = 0
 def create_melspectrogram(file_name, path, cm_path, mels, frames):
@@ -58,7 +59,6 @@ def create_cnn(input_shape):
                 metrics=['accuracy'])
     return model
 def main():
-    #os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
     if os.path.exists('x_train_training.npy') and os.path.exists('y_train_training.npy') and os.path.exists('x_train_val.npy') and os.path.exists('y_train_val.npy') and os.path.exists('x_train_testing.npy') and os.path.exists('y_train_testing.npy'):
         x_train_training = np.load('x_train_training.npy', allow_pickle=True)
         y_train_training = np.load('y_train_training.npy', allow_pickle=True)
