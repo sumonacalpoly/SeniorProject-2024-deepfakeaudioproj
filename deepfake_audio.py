@@ -21,7 +21,7 @@ def create_melspectrogram(file_name, path, cm_path, mels, frames):
         file_path = os.path.join(path, f)
         
         file_path = file_path.replace("\\", "/")
-        #print(file_path)
+        print(file_path)
         #add full path name
         ndarray, rate = lb.load(file_path, sr = None)
         melspectrogram = lb.feature.melspectrogram(y=ndarray, sr=rate, n_mels = mels)
@@ -72,18 +72,21 @@ def main():
     training_dir_la = "LA/LA/ASVspoof2019_LA_train/flac"
     validation_dir_la = "LA/LA/ASVspoof2019_LA_dev/flac"
     testing_dir_la = "LA/LA/ASVspoof2019_LA_eval/flac"
-    # training_dir_pa = "PA/PA/ASVspoof2019_PA_train/flac"
-    # validation_dir_pa = "PA/PA/ASVspoof2019_PA_eval/flac"
-    # testing_dir_pa = "PA/PA/ASVspoof2019_PA_eval/flac"
+    training_dir_pa = "PA/PA/ASVspoof2019_PA_train/flac"
+    validation_dir_pa = "PA/PA/ASVspoof2019_PA_eval/flac"
+    testing_dir_pa = "PA/PA/ASVspoof2019_PA_eval/flac"
     training_files_la = os.listdir(training_dir_la)
     validation_files_la = os.listdir(validation_dir_la)
     testing_files_la = os.listdir(testing_dir_la)
-    # training_files_pa = os.listdir(training_dir_pa)
-    # validation_files_pa = os.listdir(validation_dir_pa)
-    # testing_files_pa = os.listdir(testing_dir_pa)
+    training_files_pa = os.listdir(training_dir_pa)
+    validation_files_pa = os.listdir(validation_dir_pa)
+    testing_files_pa = os.listdir(testing_dir_pa)
     train_cm_path = "LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt"
     val_cm_path = "LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt"
     test_cm_path = "LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.eval.trl.txt"
+    train_cm_path_pa = "PA/PA/ASVspoof2019_PA_cm_protocols/ASVspoof2019.PA.cm.train.trn.txt"
+    val_cm_path_pa = "PA/PA/ASVspoof2019_PA_cm_protocols/ASVspoof2019.PA.cm.dev.trl.txt"
+    test_cm_path_pa = "PA/PA/ASVspoof2019_PA_cm_protocols/ASVspoof2019.PA.cm.eval.trl.txt"
 
     if os.path.exists('x_train_training.npy') and os.path.exists('y_train_training.npy'):
         x_train_training = np.load('x_train_training.npy', allow_pickle=True)
@@ -103,11 +106,35 @@ def main():
 
     if os.path.exists('x_train_testing.npy') and os.path.exists('y_train_testing.npy'):
         x_train_testing = np.load('x_train_testing.npy', allow_pickle=True)
-        y_train_training = np.load('y_train_testing.npy', allow_pickle=True)
+        y_train_testing = np.load('y_train_testing.npy', allow_pickle=True)
     else:
         x_train_testing, y_train_testing = create_melspectrogram(testing_files_la, testing_dir_la,test_cm_path,128, 128)
         np.save('x_train_testing.npy', x_train_testing)
         np.save('y_train_testing.npy', y_train_testing)
+
+    if os.path.exists('x_train_testing_pa.npy') and os.path.exists('y_train_testing_pa.npy'):
+        x_train_testing_pa = np.load('x_train_testing_pa.npy', allow_pickle=True)
+        y_train_testing_pa = np.load('y_train_testing_pa.npy', allow_pickle=True)
+    else:
+        x_train_testing_pa, y_train_testing_pa = create_melspectrogram(testing_files_pa, testing_dir_pa, test_cm_path_pa, 128, 128)
+        np.save('x_train_testing_pa.npy', x_train_testing_pa)
+        np.save('y_train_testing_pa.npy', y_train_testing_pa)
+
+    if os.path.exists('x_train_training_pa.npy') and os.path.exists('y_train_training_pa.npy'):
+        x_train_training_pa = np.load('x_train_training_pa.npy', allow_pickle=True)
+        y_train_training_pa = np.load('y_train_training_pa.npy', allow_pickle=True)
+    else:
+        x_train_training_pa, y_train_training_pa = create_melspectrogram(training_files_pa, training_dir_pa, train_cm_path_pa, 128, 128)
+        np.save('x_train_training_pa.npy', x_train_training_pa)
+        np.save('y_train_training_pa.npy', y_train_training_pa)
+
+    if os.path.exists('x_train_val_pa.npy') and os.path.exists('y_train_val_pa.npy'):
+        x_train_val_pa = np.load('x_train_val_pa.npy', allow_pickle=True)
+        y_train_val_pa = np.load('y_train_val_pa.npy', allow_pickle=True)
+    else:
+        x_train_val_pa, y_train_val_pa = create_melspectrogram(validation_files_pa, validation_dir_pa, val_cm_path_pa, 128, 128)
+        np.save('x_train_val_pa.npy', x_train_val_pa)
+        np.save('y_train_val_pa.npy', y_train_val_pa)
     
     print(f"x_train_training: {x_train_training}")
     print(f"y_train_training: {y_train_training}")
@@ -115,6 +142,13 @@ def main():
     print(f"y_train_val: {y_train_val}")
     print(f"x_train_test: {x_train_testing}")
     print(f"y_train_test: {y_train_testing}")
+
+    print(f"x_train_training_pa: {x_train_training_pa}")
+    print(f"y_train_training_pa: {y_train_training_pa}")
+    print(f"x_train_val_pa: {x_train_val_pa}")
+    print(f"y_train_val_pa: {y_train_val_pa}")
+    print(f"x_train_test_pa: {x_train_testing_pa}")
+    print(f"y_train_test_pa: {y_train_testing_pa}")
 
     x_train_training = x_train_training.reshape(-1, 128, 128, 1)
     model = create_cnn(x_train_training.shape[1:])
