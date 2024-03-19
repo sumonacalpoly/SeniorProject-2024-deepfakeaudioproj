@@ -253,15 +253,21 @@ def main():
 
     x_train_training = x_train_training.reshape(-1, 128, 128, 1)
     model = create_cnn(x_train_training.shape[1:])
-    model.fit(x_train_training, y_train_training, epochs=10, batch_size=32, validation_data=(x_train_val, y_train_val))
+    model.fit(x_train_training, y_train_training, epochs=1, batch_size = 32, validation_data=(x_train_val, y_train_val))
     loss, accuracy = model.evaluate(x_train_testing, y_train_testing)
-    print(accuracy)
+    # print(accuracy)
+    # print(loss)
 
     x_train_training_pa = x_train_training_pa.reshape(-1, 128, 128, 1)
     model_pa = create_cnn(x_train_training_pa.shape[1:])
-    model_pa.fit(x_train_training_pa, y_train_training_pa, epochs=10, batch_size=32, validation_data=(x_train_val_pa, y_train_val_pa))
+    model_pa.fit(x_train_training_pa, y_train_training_pa, epochs=1, batch_size= 64, validation_data=(x_train_val, y_train_val))
     loss_pa, accuracy_pa = model_pa.evaluate(x_train_testing_pa, y_train_testing_pa)
+
+    print(accuracy)
+    print(loss)
     print(accuracy_pa)
+    print(loss_pa)
+
 
 if __name__ == "__main__":
     main()
