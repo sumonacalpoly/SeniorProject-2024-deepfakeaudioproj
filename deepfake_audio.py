@@ -9,21 +9,17 @@ import matplotlib.pyplot as plt
 def create_melspectrogram(file_name, path, cm_path, mels, frames):
     x_train = []
     y_train = []
+
     for f in file_name:
         label = testing_real_or_fake(f, cm_path)
+        #preprocess
         if label == -1:
             continue
-        # if label is None:
-        #     print(f)
-        #     print(cm_path)
-        print(f)
-        print(label)
-        
+
         file_path = os.path.join(path, f)
         
         file_path = file_path.replace("\\", "/")
-        print(file_path)
-        #add full path name
+
         ndarray, rate = lb.load(file_path, sr = None)
         melspectrogram = lb.feature.melspectrogram(y=ndarray, sr=rate, n_mels = mels)
         if melspectrogram.shape[1] > frames:
@@ -39,7 +35,6 @@ def create_melspectrogram(file_name, path, cm_path, mels, frames):
     return x_train, y_train
 
 def testing_real_or_fake(fil, cm_path):
-    #print(file)
     with open(cm_path, 'r') as f:
         for line in f:
             fields = line.split(" ")
@@ -67,7 +62,6 @@ def create_cnn(input_shape):
                 loss='categorical_crossentropy',
                 metrics=['accuracy'])
     
-    #print(model.summary())
     return model
 
 def main():
@@ -156,10 +150,10 @@ def main():
     model_pa.fit(x_train_training_pa, y_train_training_pa, epochs=1, batch_size= 64, validation_data=(x_train_val_pa, y_train_val_pa))
     loss_pa, accuracy_pa = model_pa.evaluate(x_train_testing_pa, y_train_testing_pa)
 
-    print(accuracy)
-    print(loss)
-    print(accuracy_pa)
-    print(loss_pa)
+    print(f"Logical Access Accuracy: {accuracy}")
+    print(f"Logical Access Loss: {loss}")
+    print(f"Physical Access Accuracy: {accuracy_pa}")
+    print(f"Physical Access Loss: {loss_pa}")
 
 
 if __name__ == "__main__":
