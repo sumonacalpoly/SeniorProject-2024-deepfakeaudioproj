@@ -3,7 +3,6 @@ import numpy as np
 import tensorflow as tf
 import os
 import matplotlib.pyplot as plt
-#os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 #bonafide = 1, fake = 0
 def create_melspectrogram(file_name, path, cm_path, mels, frames):
