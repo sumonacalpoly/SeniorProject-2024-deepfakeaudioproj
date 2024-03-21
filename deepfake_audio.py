@@ -54,11 +54,11 @@ def create_cnn(input_shape):
         tf.keras.layers.Flatten(),
         tf.keras.layers.Dense(128, activation="relu"),
         tf.keras.layers.Dropout(.5), 
-        tf.keras.layers.Dense(2, activation="softmax")
+        tf.keras.layers.Dense(1, activation="sigmoid")
     ])
 
     model.compile(optimizer='adam',
-                loss='categorical_crossentropy',
+                loss='binary_crossentropy',
                 metrics=['accuracy'])
     
     return model
@@ -132,12 +132,12 @@ def main():
         np.save('x_train_val_pa.npy', x_train_val_pa)
         np.save('y_train_val_pa.npy', y_train_val_pa)
     
-    y_train_training = tf.keras.utils.to_categorical(y_train_training, num_classes=2)
-    y_train_val = tf.keras.utils.to_categorical(y_train_val, num_classes=2)
-    y_train_testing = tf.keras.utils.to_categorical(y_train_testing, num_classes=2)
-    y_train_training_pa = tf.keras.utils.to_categorical(y_train_training_pa, num_classes=2)
-    y_train_val_pa = tf.keras.utils.to_categorical(y_train_val_pa, num_classes=2)
-    y_train_testing_pa = tf.keras.utils.to_categorical(y_train_testing_pa, num_classes=2)
+    # y_train_training = tf.keras.utils.to_categorical(y_train_training, num_classes=2)
+    # y_train_val = tf.keras.utils.to_categorical(y_train_val, num_classes=2)
+    # y_train_testing = tf.keras.utils.to_categorical(y_train_testing, num_classes=2)
+    # y_train_training_pa = tf.keras.utils.to_categorical(y_train_training_pa, num_classes=2)
+    # y_train_val_pa = tf.keras.utils.to_categorical(y_train_val_pa, num_classes=2)
+    # y_train_testing_pa = tf.keras.utils.to_categorical(y_train_testing_pa, num_classes=2)
 
     x_train_training = x_train_training.reshape(-1, 128, 128, 1)
     model = create_cnn(x_train_training.shape[1:])
