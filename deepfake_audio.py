@@ -138,6 +138,61 @@ def main():
     # y_train_training_pa = tf.keras.utils.to_categorical(y_train_training_pa, num_classes=2)
     # y_train_val_pa = tf.keras.utils.to_categorical(y_train_val_pa, num_classes=2)
     # y_train_testing_pa = tf.keras.utils.to_categorical(y_train_testing_pa, num_classes=2)
+    first_la_fake = 0
+    first_pa_fake = 0
+    first_la_real = 0
+    first_pa_real = 0
+    for i in range(len(y_train_training)):
+        if y_train_training[i] == 0:
+            print(x_train_training[i])
+            first_la_fake = i
+            break
+
+    for i in range(len(y_train_training_pa)):
+        if y_train_training_pa[i] == 0:
+            print(x_train_training_pa[i])
+            first_pa_fake = i
+            break
+
+    for i in range(len(y_train_training)):
+        if y_train_training[i] == 1:
+            print(x_train_training[i])
+            first_la_real = i
+            break
+
+    for i in range(len(y_train_training_pa)):
+        if y_train_training_pa[i] == 1:
+            print(x_train_training_pa[i])
+            first_pa_real = i
+            break
+
+    plt.figure(figsize=(10, 4))
+    lb.display.specshow(lb.power_to_db(x_train_training[first_la_fake], ref=np.max), x_axis='time', y_axis='mel')
+    plt.colorbar(format='%+2.0f dB')
+    plt.title('Melspectrogram of Fake Logical Access')
+    plt.tight_layout()
+    plt.show()
+
+    plt.figure(figsize=(10, 4))
+    lb.display.specshow(lb.power_to_db(x_train_training[first_la_real], ref=np.max), x_axis='time', y_axis='mel')
+    plt.colorbar(format='%+2.0f dB')
+    plt.title('Melspectrogram of Real Logical Access')
+    plt.tight_layout()
+    plt.show()
+
+    plt.figure(figsize=(10, 4))
+    lb.display.specshow(lb.power_to_db(x_train_training[first_pa_fake], ref=np.max), x_axis='time', y_axis='mel')
+    plt.colorbar(format='%+2.0f dB')
+    plt.title('Melspectrogram of Fake Physical Access')
+    plt.tight_layout()
+    plt.show()
+
+    plt.figure(figsize=(10, 4))
+    lb.display.specshow(lb.power_to_db(x_train_training[first_pa_real], ref=np.max), x_axis='time', y_axis='mel')
+    plt.colorbar(format='%+2.0f dB')
+    plt.title('Melspectrogram of Real Physical Access')
+    plt.tight_layout()
+    plt.show()
 
     x_train_training = x_train_training.reshape(-1, 128, 128, 1)
     model = create_cnn(x_train_training.shape[1:])
