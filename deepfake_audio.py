@@ -181,14 +181,14 @@ def main():
     plt.show()
 
     plt.figure(figsize=(10, 4))
-    lb.display.specshow(lb.power_to_db(x_train_training[first_pa_fake], ref=np.max), x_axis='time', y_axis='mel')
+    lb.display.specshow(lb.power_to_db(x_train_training_pa[first_pa_fake], ref=np.max), x_axis='time', y_axis='mel')
     plt.colorbar(format='%+2.0f dB')
     plt.title('Melspectrogram of Fake Physical Access')
     plt.tight_layout()
     plt.show()
 
     plt.figure(figsize=(10, 4))
-    lb.display.specshow(lb.power_to_db(x_train_training[first_pa_real], ref=np.max), x_axis='time', y_axis='mel')
+    lb.display.specshow(lb.power_to_db(x_train_training_pa[first_pa_real], ref=np.max), x_axis='time', y_axis='mel')
     plt.colorbar(format='%+2.0f dB')
     plt.title('Melspectrogram of Real Physical Access')
     plt.tight_layout()
