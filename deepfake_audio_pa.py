@@ -15,7 +15,7 @@ def create_cnn(input_shape):
         tf.keras.layers.Dense(128, activation="relu"),
         tf.keras.layers.Dropout(.6), 
         tf.keras.layers.Dense(1, activation="sigmoid")
-    ])
+    ]) 
     model.compile(optimizer="adam",
                 loss='binary_crossentropy',
                 metrics=['accuracy'])
